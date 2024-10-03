@@ -16,10 +16,10 @@ app.set("views", "./views");
 app.get('/', async (req, res) => {
   try {
     const apiKey = 'f5f20914c141a7cc2d2a282f192a656e';
-    const city = 'London';
+    const city = 'dubai';
 
     // Fetch weather data from OpenWeatherMap API
-    const response = await axios.get(`https://api.openweathermap.org/data/2.5/weather?q=${city},uk&APPID=${apiKey}&units=metric`);
+    const response = await axios.get(`https://api.openweathermap.org/data/2.5/weather?q=${city}&APPID=${apiKey}&units=metric`);
 
     const weatherData = response.data;
     console.log(weatherData);
@@ -32,18 +32,56 @@ app.get('/', async (req, res) => {
     
 
     // Pass the data to the EJS template for rendering
-    res.render("index", {
+    res.render("index",{data: {
       city: weatherData.name,
       temperature: weatherData.main.temp,
       description: weatherData.weather[0].description,
       icon: weatherIcon
-    });
+    }});
 
   } catch (error) {
     console.error('Error fetching weather data:', error);
     res.status(500).send('Error fetching weather data');
   }
 });
+
+
+app.post("/", async (req, res) => {
+  console.log(req.body);
+
+  try {
+    const apiKey = 'f5f20914c141a7cc2d2a282f192a656e';
+    const city = req.body.city;
+
+    // Fetch weather data from OpenWeatherMap API
+    const response = await axios.get(`https://api.openweathermap.org/data/2.5/weather?q=${city}&APPID=${apiKey}&units=metric`);
+
+    const weatherData = response.data;
+    console.log(weatherData);
+    
+
+    // Find the icon based on the weather code from the data
+    const weatherCode = weatherData.weather[0].id;
+    const weatherIcon = weatherIcons.find(icon => icon.code === weatherCode)?.icon || "defaultIcon"; // Fallback icon
+    console.log(weatherIcon);
+    
+
+    // Pass the data to the EJS template for rendering
+    res.render("index",{data: {
+      city: weatherData.name,
+      temperature: weatherData.main.temp,
+      description: weatherData.weather[0].description,
+      wind: weatherData.wind.speed,
+      humidity: weatherData.main.humidity,
+      icon: weatherIcon
+    }});
+
+  } catch (error) {
+    console.error('Error fetching weather data:', error);
+    res.status(500).send('Error fetching weather data');
+  }
+});
+
 
 // Start the server
 app.listen(port, () => {

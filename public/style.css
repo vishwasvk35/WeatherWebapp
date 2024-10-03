@@ -21,7 +21,7 @@ body{
     align-self: center;
     height: 50px;
     width: 600px;
-    margin-top: 50px;
+    /* margin-top: 50px; */
     font-size: 20px;
     border-radius: 50ch;
     padding: 0 40px;
@@ -53,4 +53,18 @@ body{
 .details *{
     display: flex;
     gap: 15px;
+}
+
+button{
+    height: 60px;
+    width: 60px;
+    border-radius: 50%;
+}
+
+form{
+    margin-top: 50px;
+    gap: 10px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }

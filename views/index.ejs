@@ -7,27 +7,32 @@
     <link rel="stylesheet" href="/style.css">
 </head>
 <body>
-    <input class="place-input" type="text"  placeholder="Enter a place">
+    <form action="/" method="post">
+        <input name="city" class="place-input" type="text"  placeholder="Enter a place">
+        <button type="submit"> <img src="/icons/search-analytics.png" alt="search" height="40"></button>
+    </form>
 
-    <div class="info">
-        <img src="https://openweathermap.org/img/wn/10d@2x.png" alt="weather">
-
-        <p class="temp"> 22' C</p>
-
-        <p class="city">New York</p>
-
-        <div class="details">
-            <div class="humidity">
-                <img src="icons/humidity.png" width="40" alt="humidity">
-                <p>64% <br> humidity</p>
-            </div>
+    <% if(locals.data){ %> 
+        <div class="info">
+            <img src="https://openweathermap.org/img/wn/<%= data.icon %>@2x.png" alt="weather" />
     
-            <div class="speed">
-                <img src="icons/wind_speed.png" width="60   " alt="wind speed">
-                <p>18km/hr <br> Wind speed </p>
+            <p class="temp"> <%= data.temperature %> °C </p>
+    
+            <p class="city"><%= data.city %></p>
+    
+            <div class="details">
+                <div class="humidity">
+                    <img src="icons/humidity.png" width="40" alt="humidity">
+                    <p> <%= data.humidity %>% <br> humidity</p>
+                </div>
+        
+                <div class="speed">
+                    <img src="icons/wind_speed.png" width="80   " alt="wind speed">
+                    <p><%= data.wind %> km/hr <br> Wind speed </p>
+                </div>
             </div>
         </div>
-    </div>
+    <% } %>
 </body>
 
 <script src="/index.js"></script>
